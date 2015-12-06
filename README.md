@@ -2,8 +2,11 @@
 
 Native mobile app for [rsstodolist](https://rsstodolist.appspot.com/), built using [nativescript](https://docs.nativescript.org).
 
-Currently tested only on Android (One Plus One).
+## Screenshot
 
+![rsstodolist screenshot](screenshot.png)
+
+Currently tested only on Android (One Plus One).
 
 # Build / deploy on Android
 
