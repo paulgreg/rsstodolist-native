@@ -26,7 +26,7 @@ function pageLoaded(args) {
         msgLabel.text = "";
     };
 
-    function doStuff (action, feed, url) {
+    function doAction(action, feed, url) {
         if (url.length === 0) {
             msgLabel.text = "url should not be empty";
             msgLabel.className = "error";
@@ -43,7 +43,7 @@ function pageLoaded(args) {
 
         var url = [ baseUrl, action, '?name=', feed, '&url=', encodeURIComponent(url) ].join('');
 
-        http.getString(url)
+        return http.getString(url)
         .then(function (response) {
             msgLabel.text = "feed updated";
             setTimeout(cleanupMessage.bind(this), 3000);
@@ -53,15 +53,23 @@ function pageLoaded(args) {
     };
 
     addButton.on("tap", function () {
-        doStuff.call(this, 'add', feedField.text, urlField.text);
+        var feed = feedField.text;
+        doAction('add', feed, urlField.text)
+        .then(listItems.bind(this, feed));
     });
 
     delButton.on("tap", function () {
-        doStuff.call(this, 'del', feedField.text, urlField.text);
+        var feed = feedField.text;
+        doAction('del', feed, urlField.text)
+        .then(listItems.bind(this, feed));
     });
 
     goButton.on("tap", function () {
         var feed = feedField.text;
+        listItems(feed);
+    });
+
+    function listItems(feed) {
         if (feed.length === 0) {
             msgLabel.text = "feed should not be empty";
             msgLabel.className = "error";
@@ -71,6 +79,8 @@ function pageLoaded(args) {
         msgLabel.className = "";
         msgLabel.text = "fetching feed...";
 
+        first = true;
+        items = [];
         var url = [ baseUrl, '?name=', feed ].join('');
 
         http.getString(url)
@@ -79,7 +89,6 @@ function pageLoaded(args) {
             var trimresponse = response.replace(/\n\s*\</g, '<');
             xmlParser.parse(trimresponse);
 
-            // items.forEach(function(item) { console.log('item', item.title, item.link); });
             msgLabel.text = "Feed entries:"
             listView.items = items;
 
@@ -88,13 +97,14 @@ function pageLoaded(args) {
             msgLabel.className = "error";
         }.bind(this));
 
-    });
+    };
 
     listView.on("itemTap", function (item) {
         utils.openUrl(items[item.index].link);
     });
 
-    var items = [];
+    var first;
+    var items;
     var currentItem;
     var significantText;
 
@@ -110,7 +120,10 @@ function pageLoaded(args) {
             if (event.elementName === 'link') {
                 currentItem.link = significantText;
                 currentItem.name = currentItem.title + ': ' + currentItem.link;
-                items.splice(0, 0, currentItem);
+                if (!first) {
+                    items.push(currentItem);
+                }
+                first = false;
             }
         } else if (event.eventType === xml.ParserEventType.Text) {
             significantText = event.data.trim();
