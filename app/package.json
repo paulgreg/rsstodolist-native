@@ -1,27 +1,23 @@
 {
-	"name": "tns-template-hello-world",
+	"name": "tns-rsstodolist",
 	"main": "app.js",
-	"version": "1.5.1",
-	"author": "Telerik <support@telerik.com>",
-	"description": "Nativescript hello-world project template",
-	"license": "Apache-2.0",
+	"version": "0.1.0",
+	"author": "paulgreg",
+	"description": "rsstodolist native app",
+	"license": "GPL 3.0",
 	"keywords": [
-		"telerik",
-		"mobile",
-		"nativescript",
-		"{N}",
-		"tns",
-		"appbuilder",
-		"template"
+		"rsstodolist",
+		"rss",
+		"feed"
 	],
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/NativeScript/template-hello-world.git"
+		"url": "git://github.com/paulgreg/rsstodolist-native.git"
 	},
 	"bugs": {
-		"url": "https://github.com/NativeScript/template-hello-world/issues"
+		"url": "https://github.com/paulgreg/rsstodolist-native/issues"
 	},
-	"homepage": "https://github.com/NativeScript/template-hello-world",
+	"homepage": "https://rsstodolist.appspot.com/",
 	"android": {
 		"v8Flags": "--expose_gc"
 	}
