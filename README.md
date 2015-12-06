@@ -4,6 +4,7 @@ Native mobile app for [rsstodolist](https://rsstodolist.appspot.com/), built usi
 
 Currently tested only on Android (One Plus One).
 
+
 # Build / deploy on Android
 
 ## Requirements
@@ -18,3 +19,8 @@ Currently tested only on Android (One Plus One).
 ## to deploy on a device
 
 `tns deploy android`
+
+
+# Attribution
+
+Icons comes from [Piotr Adam Kwiatkowski](http://ikons.piotrkwiatkowski.co.uk/). Thanks
