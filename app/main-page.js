@@ -15,23 +15,7 @@ function pageLoaded(args) {
     var delButton = view.getViewById(page, "del");
     var goButton  = view.getViewById(page, "go");
     var msgLabel  = view.getViewById(page, "msg");
-
-    function onXmlNode (event) {
-        switch (event.eventType) {
-            case xmlModule.ParserEventType.StartElement:
-                var message = event.eventType + " " + event.elementName;
-                console.log(message);
-            break;
-            case xmlModule.ParserEventType.EndElement:
-                console.log(event.eventType + " " + event.elementName);
-            break;
-            case xmlModule.ParserEventType.Text:
-                var significantText = event.data.trim();
-            if (significantText !== "") {
-            }
-            break;
-        }
-    };
+    var listView  = view.getViewById(page, "list");
 
     var xmlParser = new xml.XmlParser(onXmlNode, function(err) {
         msgLabel.text = "error:" + err;
@@ -57,16 +41,9 @@ function pageLoaded(args) {
         msgLabel.className = "";
         msgLabel.text = "updating feed...";
 
-        http.getString(
-            [
-                baseUrl,
-                action,
-                '?name=',
-                feed,
-                '&url=',
-                encodeURIComponent(url)
-            ].join('')
-        )
+        var url = [ baseUrl, action, '?name=', feed, '&url=', encodeURIComponent(url) ].join('');
+
+        http.getString(url)
         .then(function (response) {
             msgLabel.text = "feed updated";
             setTimeout(cleanupMessage.bind(this), 3000);
@@ -92,26 +69,55 @@ function pageLoaded(args) {
         }
 
         msgLabel.className = "";
+        msgLabel.text = "fetching feed...";
 
-        http.getString(
-            [
-                baseUrl,
-                '?name=',
-                feed
-            ].join('')
-        )
+        var url = [ baseUrl, '?name=', feed ].join('');
+
+        http.getString(url)
         .then(function (response) {
 
-            var result = xmlParser.parse(response);
-            console.log(result);
-            return result;
+            var trimresponse = response.replace(/\n\s*\</g, '<');
+            xmlParser.parse(trimresponse);
+
+            // items.forEach(function(item) { console.log('item', item.title, item.link); });
+            msgLabel.text = "Feed entries:"
+            listView.items = items;
 
         }.bind(this), function (e) {
             msgLabel.text = "error:" + e;
+            msgLabel.className = "error";
         }.bind(this));
 
-        // utils.openUrl()
     });
+
+    listView.on("itemTap", function (item) {
+        utils.openUrl(items[item.index].link);
+    });
+
+    var items = [];
+    var currentItem;
+    var significantText;
+
+    function onXmlNode (event) {
+        if (event.eventType === xml.ParserEventType.StartElement) {
+            if (event.elementName === 'title') {
+                currentItem = {};
+            }
+        } else if (event.eventType === xml.ParserEventType.EndElement) {
+            if (event.elementName === 'title') {
+                currentItem.title = significantText;
+            }
+            if (event.elementName === 'link') {
+                currentItem.link = significantText;
+                currentItem.name = currentItem.title + ': ' + currentItem.link;
+                items.splice(0, 0, currentItem);
+            }
+        } else if (event.eventType === xml.ParserEventType.Text) {
+            significantText = event.data.trim();
+        }
+    };
+
+
 };
 
 exports.pageLoaded = pageLoaded;

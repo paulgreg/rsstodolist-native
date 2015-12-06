@@ -7,6 +7,16 @@
     font-size: 20;
 }
 
+#list {
+    border-top: 1px solid black;
+}
+
+.item {
+    font-size: 20;
+    color: black;
+    margin: 8px;
+}
+
 .error {
     color: red;
 }
