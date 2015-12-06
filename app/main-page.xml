@@ -1,0 +1,19 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded">
+    <GridLayout rows="auto, auto, auto, auto, auto, auto" columns="*, *, *">
+        <TextField id="url" keyboardType="url" hint="URL" row="1" colSpan="3" />
+        <TextField id="feed" hint="Feed name" row="2" colSpan="3" />
+
+        <Button id="add" text="Add" tap="{{ addAction }}" row="3" col="0" />
+        <Button id="del" text="Delete" tap="{{ delAction }}" row="3" col="1" />
+        <Button id="go" text="go" tap="{{ delAction }}" row="3" col="2" />
+
+        <Label id="msg" text="{{ message }}" textWrap="true" row="4" colSpan="3" />
+
+        <ListView id="lists" items="{{ items }}" colSpan="3">
+            <ListView.itemTemplate>
+                <Label text="{{ title }}" textWrap="true" class="item" />
+            </ListView.itemTemplate>
+        </ListView>
+
+    </GridLayout>
+</Page>

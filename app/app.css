@@ -1,0 +1,12 @@
+﻿button {
+    font-size: 20;
+}
+
+#msg {
+    margin: 6px;
+    font-size: 20;
+}
+
+.error {
+    color: red;
+}
