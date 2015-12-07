@@ -1,25 +1,37 @@
 var view  = require("ui/core/view");
 var http  = require("http");
 var xml   = require("xml");
+var fs    = require("file-system");
 var utils = require("utils/utils");
 
 const mainServer = 'https://rsstodolist.appspot.com/';
-var baseUrl = mainServer;
 
 function pageLoaded(args) {
     var page = args.object;
 
-    var urlField  = view.getViewById(page, "url");
-    var feedField = view.getViewById(page, "feed");
-    var addButton = view.getViewById(page, "add");
-    var delButton = view.getViewById(page, "del");
-    var goButton  = view.getViewById(page, "go");
-    var msgLabel  = view.getViewById(page, "msg");
-    var listView  = view.getViewById(page, "list");
+    var urlField        = view.getViewById(page, "url");
+    var feedField       = view.getViewById(page, "feed");
+    var addButton       = view.getViewById(page, "add");
+    var delButton       = view.getViewById(page, "del");
+    var goButton        = view.getViewById(page, "go");
+    var msgLabel        = view.getViewById(page, "msg");
+    var listView        = view.getViewById(page, "list");
+    var serversPicker   = view.getViewById(page, "servers");
+
+    var servers = [ mainServer ];
+
+    var config = fs.File.fromPath(fs.path.join(fs.knownFolders.currentApp().path, "config.json"));
+    config.readText()
+    .then(function (data) {
+        servers = JSON.parse(data);
+        serversPicker.items = servers;
+    }, function (error) {
+        // Fail silently : set default server
+        serversPicker.items = servers;
+    });
 
     var xmlParser = new xml.XmlParser(onXmlNode, function(err) {
         msgLabel.text = "error:" + err;
-        console.log(err);
     });
 
     function cleanupMessage () {
@@ -28,40 +40,44 @@ function pageLoaded(args) {
 
     function doAction(action, feed, url) {
         if (url.length === 0) {
-            msgLabel.text = "url should not be empty";
-            msgLabel.className = "error";
-            return;
+            return Promise.reject("url should not be empty");
         }
         if (feed.length === 0) {
-            msgLabel.text = "feed should not be empty";
-            msgLabel.className = "error";
-            return;
+            return Promise.reject("feed should not be empty");
         }
 
         msgLabel.className = "";
         msgLabel.text = "updating feed...";
 
-        var url = [ baseUrl, action, '?name=', feed, '&url=', encodeURIComponent(url) ].join('');
+        var url = [ servers[serversPicker.selectedIndex], action, '?name=', feed, '&url=', encodeURIComponent(url) ].join('');
 
         return http.getString(url)
         .then(function (response) {
             msgLabel.text = "feed updated";
             setTimeout(cleanupMessage.bind(this), 3000);
         }.bind(this), function (e) {
-            msgLabel.text = "error:" + e;
+            return Promise.reject("error:" + e);
         }.bind(this));
     };
 
     addButton.on("tap", function () {
         var feed = feedField.text;
         doAction('add', feed, urlField.text)
-        .then(listItems.bind(this, feed));
+        .then(listItems.bind(this, feed))
+        .then(undefined, function(error) {
+            msgLabel.text = error;
+            msgLabel.className = "error";
+        });
     });
 
     delButton.on("tap", function () {
         var feed = feedField.text;
         doAction('del', feed, urlField.text)
-        .then(listItems.bind(this, feed));
+        .then(listItems.bind(this, feed))
+        .then(undefined, function(error) {
+            msgLabel.text = error;
+            msgLabel.className = "error";
+        });
     });
 
     goButton.on("tap", function () {
@@ -81,7 +97,8 @@ function pageLoaded(args) {
 
         first = true;
         items = [];
-        var url = [ baseUrl, '?name=', feed ].join('');
+
+        var url = [ servers[serversPicker.selectedIndex], '?name=', feed ].join('');
 
         http.getString(url)
         .then(function (response) {
