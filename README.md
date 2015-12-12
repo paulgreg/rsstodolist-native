@@ -33,7 +33,7 @@ copy `app/config.json.dist` to `app/config.json` (and change or add servers if n
 
 # Todo list & know issues
 
-  * bug: after opening a second link, app crashes with `getActivity returns invalid value`...
+  * bug: after opening a second link, app crashes with `getActivity returns invalid value`... (you need to close app to avoid that crash)
   * refactor: move feed parser to a dedicated module
   * refactor: find another way that applicationSettings to pass URL between app.js and main-page.js
 
