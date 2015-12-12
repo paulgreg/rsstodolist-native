@@ -1,8 +1,9 @@
-var view  = require("ui/core/view");
-var http  = require("http");
-var xml   = require("xml");
-var fs    = require("file-system");
-var utils = require("utils/utils");
+var view                = require("ui/core/view");
+var http                = require("http");
+var xml                 = require("xml");
+var fs                  = require("file-system");
+var utils               = require("utils/utils");
+var applicationSettings = require("application-settings");
 
 const mainServer = 'https://rsstodolist.appspot.com/';
 
@@ -17,6 +18,11 @@ function pageLoaded(args) {
     var msgLabel        = view.getViewById(page, "msg");
     var listView        = view.getViewById(page, "list");
     var serversPicker   = view.getViewById(page, "servers");
+
+    if (applicationSettings.getString("startUrl")) {
+        urlField.text = applicationSettings.getString("startUrl");
+        applicationSettings.setString("startUrl", "");
+    }
 
     var servers = [ mainServer ];
 

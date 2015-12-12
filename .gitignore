@@ -1,3 +1,15 @@
 node_modules
-platforms/android
 app/config.json
+platforms/android/src/main/assets
+platforms/android/src/main/res
+platforms/android/build-tools
+platforms/android/build
+platforms/android/gradle
+platforms/android/libs
+platforms/android/metadata
+platforms/android/.gradle
+platforms/android/build.gradle
+platforms/android/gradle.properties
+platforms/android/gradlew
+platforms/android/gradlew.bat
+platforms/android/settings.gradle
