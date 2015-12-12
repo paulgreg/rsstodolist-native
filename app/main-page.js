@@ -74,6 +74,8 @@ function pageLoaded(args) {
             msgLabel.text = error;
             msgLabel.className = "error";
         });
+        feedField.dismissSoftInput();
+        urlField.dismissSoftInput();
     });
 
     delButton.on("tap", function () {
@@ -84,11 +86,14 @@ function pageLoaded(args) {
             msgLabel.text = error;
             msgLabel.className = "error";
         });
+        feedField.dismissSoftInput();
+        urlField.dismissSoftInput();
     });
 
     goButton.on("tap", function () {
         var feed = feedField.text;
         listItems(feed);
+        feedField.dismissSoftInput();
     });
 
     function listItems(feed) {
@@ -119,7 +124,6 @@ function pageLoaded(args) {
             msgLabel.text = "error:" + e;
             msgLabel.className = "error";
         }.bind(this));
-
     };
 
     listView.on("itemTap", function (item) {
