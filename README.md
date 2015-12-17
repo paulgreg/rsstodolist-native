@@ -19,6 +19,11 @@ Currently tested only on Android (One Plus One).
 
 copy `app/config.json.dist` to `app/config.json` (and change or add servers if needed)
 
+
+## Add Android SDK to path
+
+like `export ANDROID_HOME=~/apps/android-sdk-linux`
+
 ## to run on a device
 
 `tns run android`
