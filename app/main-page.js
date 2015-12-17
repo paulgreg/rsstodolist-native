@@ -12,9 +12,9 @@ function pageLoaded(args) {
 
     var urlField        = view.getViewById(page, "url");
     var feedField       = view.getViewById(page, "feed");
+    var goButton        = view.getViewById(page, "go");
     var addButton       = view.getViewById(page, "add");
     var delButton       = view.getViewById(page, "del");
-    var goButton        = view.getViewById(page, "go");
     var msgLabel        = view.getViewById(page, "msg");
     var listView        = view.getViewById(page, "list");
     var serversPicker   = view.getViewById(page, "servers");
@@ -109,7 +109,7 @@ function pageLoaded(args) {
         first = true;
         items = [];
 
-        var url = [ servers[serversPicker.selectedIndex], '?name=', feed ].join('');
+        var url = [ servers[serversPicker.selectedIndex], '?name=', feed, "&limit=50" ].join('');
 
         http.getString(url)
         .then(function (response) {
