@@ -4,12 +4,12 @@
         <ListPicker id="servers" items="{{ servers }}" row="0" colSpan="4" />
 
         <TextField id="feed" hint="Feed name" row="1" colSpan="3" />
-        <Button id="go" text="go" tap="{{ delAction }}" row="1" col="3" />
+        <Button id="go" text="go" row="1" col="3" />
 
         <TextField id="url" keyboardType="url" hint="URL" row="2" colSpan="4" />
 
-        <Button id="add" text="add" tap="{{ addAction }}" row="3" col="0" colSpan="2" />
-        <Button id="del" text="delete" tap="{{ delAction }}" row="3" col="2" colSpan="2" />
+        <Button id="add" text="add" row="3" col="0" colSpan="2" />
+        <Button id="del" text="delete" row="3" col="2" colSpan="2" />
 
         <Label id="msg" text="{{ message }}" textWrap="true" row="4" colSpan="4" />
 
