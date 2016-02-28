@@ -1,11 +1,12 @@
 {
-	"nativescript": {
-		"id": "org.nativescript.rsstodolistnative",
-		"tns-android": {
-			"version": "1.5.0"
-		}
-	},
-	"dependencies": {
-		"tns-core-modules": "1.5.0"
-	}
+  "nativescript": {
+    "id": "org.nativescript.rsstodolistnative",
+    "tns-android": {
+      "version": "1.6.1"
+    }
+  },
+  "dependencies": {
+    "nativescript": "1.6.1",
+    "tns-core-modules": "1.6.0"
+  }
 }
