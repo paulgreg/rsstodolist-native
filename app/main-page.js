@@ -55,13 +55,26 @@ function pageLoaded(args) {
         msgLabel.className = "";
         msgLabel.text = "updating feed...";
 
-        var url = [ servers[serversPicker.selectedIndex], action, '?name=', feed, '&url=', encodeURIComponent(url) ].join('');
+        var url = [ servers[serversPicker.selectedIndex], action, '?name=', feed, '&url=', encodeURI(url) ].join('');
 
-        return http.getString(url)
+        console.log('url', url);
+
+        return http.request({ 'url': url, 'method': 'GET' })
         .then(function (response) {
+
+            console.log('response', response);
+
+            if (response.statusCode !== 200) {
+                return Promise.reject("error:" + response.statusCode);
+            }
+
             msgLabel.text = "feed updated";
             setTimeout(cleanupMessage.bind(this), 3000);
+
+            return response.content.toString();
+
         }.bind(this), function (e) {
+            console.log('error', error);
             return Promise.reject("error:" + e);
         }.bind(this));
     };
@@ -70,7 +83,7 @@ function pageLoaded(args) {
         var feed = feedField.text;
         doAction('add', feed, urlField.text)
         .then(listItems.bind(this, feed))
-        .then(undefined, function(error) {
+        .catch(function(error) {
             msgLabel.text = error;
             msgLabel.className = "error";
         });
@@ -82,7 +95,7 @@ function pageLoaded(args) {
         var feed = feedField.text;
         doAction('del', feed, urlField.text)
         .then(listItems.bind(this, feed))
-        .then(undefined, function(error) {
+        .catch(function(error) {
             msgLabel.text = error;
             msgLabel.className = "error";
         });
@@ -121,6 +134,7 @@ function pageLoaded(args) {
             listView.items = items;
 
         }.bind(this), function (e) {
+            console.log('error', error);
             msgLabel.text = "error:" + e;
             msgLabel.className = "error";
         }.bind(this));
