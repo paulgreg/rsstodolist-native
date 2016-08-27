@@ -1,7 +1,0 @@
-android { 
-	productFlavors {
-		"NativescriptAppResources" {
-			dimension "NativescriptAppResources"
-		}
-	}
-}

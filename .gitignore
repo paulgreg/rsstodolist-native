@@ -13,3 +13,4 @@ platforms/android/gradle.properties
 platforms/android/gradlew
 platforms/android/gradlew.bat
 platforms/android/settings.gradle
+platforms/android/src/main/java
