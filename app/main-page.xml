@@ -15,7 +15,7 @@
 
         <ListView id="list" items="{{ items }}" row="5" colSpan="4">
             <ListView.itemTemplate>
-                <Label text="{{ name }}" textWrap="true" class="item" />
+                <Label text="{{ name }}" textWrap="true" class="item" link="{{ link }}" />
             </ListView.itemTemplate>
         </ListView>
 

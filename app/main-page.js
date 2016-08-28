@@ -140,8 +140,11 @@ function pageLoaded(args) {
         }.bind(this));
     };
 
-    listView.on("itemTap", function (item) {
-        utils.openUrl(items[item.index].link);
+    listView.on("itemTap", function (args) {
+        var list = args.object;
+        var idx = args.index;
+        var item = list.items[idx];
+        utils.openUrl(item.link);
     });
 
     var first;
