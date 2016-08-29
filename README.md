@@ -38,7 +38,6 @@ like `export ANDROID_HOME=~/apps/android-sdk-linux`
 
 # Todo list & know issues
 
-  * bug: after opening a second link, app crashes with `getActivity returns invalid value`... (you need to close app to avoid that crash)
   * refactor: move feed parser to a dedicated module
   * refactor: find another way that applicationSettings to pass URL between app.js and main-page.js
 
