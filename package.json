@@ -2,12 +2,18 @@
 	"nativescript": {
 		"id": "org.nativescript.rsstodolistnative",
 		"tns-android": {
-			"version": "1.7.1"
+			"version": "3.3.1"
 		}
 	},
 	"dependencies": {
-		"nativescript": "1.7.1",
+		"nativescript": "3.3.1",
 		"stream": "0.0.2",
-		"tns-core-modules": "1.7.1"
+		"tns-core-modules": "3.3.0"
+	},
+	"devDependencies": {
+		"babel-traverse": "6.26.0",
+		"babel-types": "6.26.0",
+		"babylon": "6.18.0",
+		"lazy": "1.0.11"
 	}
 }
