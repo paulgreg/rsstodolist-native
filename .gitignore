@@ -14,3 +14,7 @@ platforms/android/gradlew
 platforms/android/gradlew.bat
 platforms/android/settings.gradle
 platforms/android/src/main/java
+platforms/android/src/debug
+platforms/android/.nsprepareinfo
+platforms/android/dependencies.json
+*.apk
